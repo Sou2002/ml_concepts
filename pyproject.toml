@@ -4,4 +4,13 @@ version = "0.1.0"
 description = "Transparent ML is a simple and lightweight machine learning library."
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "numpy>=2.5.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.3.0",
+    "scikit-learn>=1.9.0",
+    "seaborn>=0.13.2",
+]
