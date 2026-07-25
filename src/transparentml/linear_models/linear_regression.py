@@ -5,7 +5,7 @@ from typing import Optional
 import numpy as np
 
 from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, FeatureMatrixArray, WeightVector
+    FeatureMatrix, TargetVector, TargetVectorArray, WeightVector
 )
 
 
@@ -76,7 +76,7 @@ class LinearRegression:
 
         return self
 
-    def predict(self, X_test: FeatureMatrix) -> FeatureMatrixArray:
+    def predict(self, X_test: FeatureMatrix) -> TargetVectorArray:
         """Predict target values for new samples.
 
         Parameters

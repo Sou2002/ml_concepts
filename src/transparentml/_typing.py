@@ -12,6 +12,9 @@ TargetVector = ArrayLike
 """Input accepted for a 1D array of shape (n_samples,).
 Can be a numpy array, list, or pandas Series."""
 
+ClassLabels = NDArray[np.int64]
+"""1D array of shape (n_samples,) containing predicted class labels."""
+
 # Internal types
 FeatureMatrixArray = NDArray[np.float64]
 TargetVectorArray = NDArray[np.float64]

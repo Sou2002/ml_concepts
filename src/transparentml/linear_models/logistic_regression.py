@@ -4,7 +4,9 @@ from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import FeatureMatrix, TargetVector, WeightVector
+from src.transparentml._typing import (
+    FeatureMatrix, TargetVector, ClassLabels, TargetVectorArray, WeightVector
+)
 
 
 class LogisticRegression:
@@ -91,7 +93,7 @@ class LogisticRegression:
         self.intercept_, self.coef_ = weights[0], weights[1:]
         return self
 
-    def predict_proba(self, X_test: FeatureMatrix) -> TargetVector:
+    def predict_proba(self, X_test: FeatureMatrix) -> TargetVectorArray:
         """Predict the probability of the positive class (label 1).
 
         Parameters
@@ -107,7 +109,7 @@ class LogisticRegression:
         X_test = np.asarray(X_test, dtype=np.float64)
         return self._sigmoid(X_test @ self.coef_ + self.intercept_)
 
-    def predict(self, X_test: FeatureMatrix) -> TargetVector:
+    def predict(self, X_test: FeatureMatrix) -> ClassLabels:
         """Predict binary class labels.
 
         Applies a 0.5 threshold to `predict_proba`.
