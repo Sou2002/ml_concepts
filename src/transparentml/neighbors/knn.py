@@ -1,13 +1,10 @@
 """Implementation of K-Nearest Neighbours."""
 
 from statistics import mode
-from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, FeatureMatrixArray, ClassLabels
-)
+from transparentml._typing import ClassLabels, FeatureMatrix, FeatureMatrixArray, TargetVector
 
 
 class KNN:
@@ -40,8 +37,8 @@ class KNN:
             Number of nearest neighbours to consider when voting.
         """
         self.n_neighbours: int = n_neighbours
-        self.X_train: Optional[FeatureMatrixArray] = None
-        self.y_train: Optional[ClassLabels] = None
+        self.X_train: FeatureMatrixArray | None = None
+        self.y_train: ClassLabels | None = None
 
     def fit(self, X_train: FeatureMatrix, y_train: TargetVector) -> "KNN":
         """
@@ -89,9 +86,8 @@ class KNN:
         pred_labels = []
         for data_point in X_test:
             distances = sorted(
-                enumerate(np.linalg.norm(self.X_train - data_point, axis=1)),
-                key=lambda x: x[1]
-            )[:self.n_neighbours]
+                enumerate(np.linalg.norm(self.X_train - data_point, axis=1)), key=lambda x: x[1]
+            )[: self.n_neighbours]
 
             neighbour_indices = [idx for idx, _ in distances]
             pred_labels.append(mode(self.y_train[neighbour_indices]))

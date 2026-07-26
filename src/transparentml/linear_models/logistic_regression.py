@@ -1,11 +1,14 @@
 """Implementation of Logistic Regression via Gradient Descent."""
 
-from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, ClassLabels, TargetVectorArray, WeightVector
+from transparentml._typing import (
+    ClassLabels,
+    FeatureMatrix,
+    TargetVector,
+    TargetVectorArray,
+    WeightVector,
 )
 
 
@@ -39,8 +42,8 @@ class LogisticRegression:
         epochs : int, default=10
             Number of full passes over the training data.
         """
-        self.intercept_: Optional[float] = None
-        self.coef_: Optional[WeightVector] = None
+        self.intercept_: float | None = None
+        self.coef_: WeightVector | None = None
         self.learning_rate: float = learning_rate
         self.epochs: int = epochs
 

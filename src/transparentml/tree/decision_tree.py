@@ -1,20 +1,23 @@
 """Implementation of Decision Tree."""
 
-from typing import Optional
 from collections import Counter
+from typing import Optional
 
 import numpy as np
-from numpy.typing import NDArray
 
-from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, ClassLabels, FeatureMatrixArray, TargetVectorArray
+from transparentml._typing import (
+    ClassLabels,
+    FeatureMatrix,
+    FeatureMatrixArray,
+    TargetVector,
+    TargetVectorArray,
 )
 
 
 class _Node:
     """
     A single node in the decision tree.
-    
+
     Represents either a decision (internal) node, which splits data
     on a feature/threshold, or a leaf node, which holds a predicted
     class value.
@@ -39,14 +42,15 @@ class _Node:
         Predicted class label. Only set for leaf nodes; ``None`` for
         decision nodes.
     """
+
     def __init__(
         self,
-        feature_idx: Optional[int]=None,
-        threshold:Optional[np.float64]=None,
-        info_gain:Optional[np.float64]=None,
+        feature_idx: int | None = None,
+        threshold: np.float64 | None = None,
+        info_gain: np.float64 | None = None,
         left: Optional["_Node"] = None,
         right: Optional["_Node"] = None,
-        value: Optional[np.float64] = None
+        value: np.float64 | None = None,
     ) -> None:
         """Initialize a decision tree node."""
         # Attributes of a decision (internal) node
@@ -98,7 +102,7 @@ class DecisionTree:
         """
         self.min_samples_split: int = min_samples_split
         self.max_depth: int = max_depth
-        self.root: Optional["_Node"] = None
+        self.root: _Node | None = None
 
     def _build_tree(self, dataset: FeatureMatrixArray, curr_depth: int = 0) -> "_Node":
         """
@@ -121,21 +125,14 @@ class DecisionTree:
         n_samples, n_features = X.shape
 
         if n_samples >= self.min_samples_split and curr_depth < self.max_depth:
-
-            best_split = self._best_split(
-                dataset=dataset,
-                n_features=n_features
-            )
+            best_split = self._best_split(dataset=dataset, n_features=n_features)
 
             if best_split["info_gain"] > 0:
-
                 left_node = self._build_tree(
-                    dataset=best_split["left_dataset"],
-                    curr_depth=curr_depth + 1
+                    dataset=best_split["left_dataset"], curr_depth=curr_depth + 1
                 )
                 right_node = self._build_tree(
-                    dataset=best_split["right_dataset"],
-                    curr_depth=curr_depth + 1
+                    dataset=best_split["right_dataset"], curr_depth=curr_depth + 1
                 )
 
                 return _Node(
@@ -143,7 +140,7 @@ class DecisionTree:
                     threshold=best_split["threshold"],
                     info_gain=best_split["info_gain"],
                     left=left_node,
-                    right=right_node
+                    right=right_node,
                 )
 
         leaf_value = Counter(y).most_common(1)[0][0]
@@ -186,9 +183,7 @@ class DecisionTree:
 
             for threshold in thresholds:
                 left_dataset, right_dataset = self._split(
-                    dataset=dataset,
-                    feature_idx=feature_idx,
-                    threshold=threshold
+                    dataset=dataset, feature_idx=feature_idx, threshold=threshold
                 )
 
                 if len(left_dataset) and len(right_dataset):
@@ -196,9 +191,7 @@ class DecisionTree:
                     left_y, right_y = left_dataset[:, -1], right_dataset[:, -1]
 
                     info_gain = self._information_gain(
-                        parent_y=parent_y,
-                        left_y=left_y,
-                        right_y=right_y
+                        parent_y=parent_y, left_y=left_y, right_y=right_y
                     )
 
                     if info_gain > best_split_dict["info_gain"]:

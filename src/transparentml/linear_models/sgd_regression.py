@@ -1,12 +1,9 @@
 """Implementation of SGD Regression."""
 
-from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, TargetVectorArray, WeightVector
-)
+from transparentml._typing import FeatureMatrix, TargetVector, TargetVectorArray, WeightVector
 
 
 class SGDRegression:
@@ -26,10 +23,13 @@ class SGDRegression:
     coef_ : ndarray of shape (n_features,) or None
     intercept_ : float or None
     """
-    def __init__(self, batch_size: int = 100, learning_rate: float = 0.01, epochs: int = 10) -> None:
+
+    def __init__(
+        self, batch_size: int = 100, learning_rate: float = 0.01, epochs: int = 10
+    ) -> None:
         """Initialize an unfitted SGDRegression model."""
-        self.coef_: Optional[WeightVector] = None
-        self.intercept_: Optional[np.float64] = None
+        self.coef_: WeightVector | None = None
+        self.intercept_: np.float64 | None = None
         self.__batch_size = batch_size
         self.__learning_rate = learning_rate
         self.__epochs = epochs

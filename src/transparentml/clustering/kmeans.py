@@ -1,10 +1,9 @@
 """Implementation of K-Means clustering."""
 
-from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import FeatureMatrix, FeatureMatrixArray, ClassLabels
+from transparentml._typing import ClassLabels, FeatureMatrix, FeatureMatrixArray
 
 
 class KMeans:
@@ -40,7 +39,9 @@ class KMeans:
     implementation does not handle re-seeding empty clusters.
     """
 
-    def __init__(self, n_clusters: int, max_iter: int = 100, random_state: Optional[int] = None) -> None:
+    def __init__(
+        self, n_clusters: int, max_iter: int = 100, random_state: int | None = None
+    ) -> None:
         """
         Initialize an unfitted KMeans model.
 
@@ -55,9 +56,9 @@ class KMeans:
         """
         self.n_clusters: int = n_clusters
         self.max_iter: int = max_iter
-        self.random_state: Optional[int] = random_state
-        self.cluster_centers_: Optional[FeatureMatrixArray] = None
-        self.labels_: Optional[ClassLabels] = None
+        self.random_state: int | None = random_state
+        self.cluster_centers_: FeatureMatrixArray | None = None
+        self.labels_: ClassLabels | None = None
 
     def fit_predict(self, X: FeatureMatrix) -> ClassLabels:
         """
@@ -106,12 +107,13 @@ class KMeans:
             Index of the nearest centroid for each sample.
         """
         cluster_label = [
-            np.argmin(np.linalg.norm(self.cluster_centers_ - row, axis=1))
-            for row in X
+            np.argmin(np.linalg.norm(self.cluster_centers_ - row, axis=1)) for row in X
         ]
         return np.array(cluster_label, dtype=np.int64)
 
-    def _move_centroids(self, X: FeatureMatrixArray, cluster_label: ClassLabels) -> FeatureMatrixArray:
+    def _move_centroids(
+        self, X: FeatureMatrixArray, cluster_label: ClassLabels
+    ) -> FeatureMatrixArray:
         """
         Recompute each centroid as the mean of its assigned points.
 
@@ -128,7 +130,6 @@ class KMeans:
             Updated centroid coordinates.
         """
         new_centroids = [
-            X[cluster_label == label].mean(axis=0)
-            for label in np.unique(cluster_label)
+            X[cluster_label == label].mean(axis=0) for label in np.unique(cluster_label)
         ]
         return np.array(new_centroids)

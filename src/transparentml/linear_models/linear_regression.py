@@ -1,12 +1,9 @@
 """Implementation of Linear Regression."""
 
-from typing import Optional
 
 import numpy as np
 
-from src.transparentml._typing import (
-    FeatureMatrix, TargetVector, TargetVectorArray, WeightVector
-)
+from transparentml._typing import FeatureMatrix, TargetVector, TargetVectorArray, WeightVector
 
 
 class LinearRegression:
@@ -32,9 +29,9 @@ class LinearRegression:
 
     def __init__(self) -> None:
         """Initialize an unfitted LinearRegression model."""
-        self.coef_: Optional[WeightVector] = None
-        self.intercept_: Optional[np.float64] = None
-        self.weights: Optional[WeightVector] = None
+        self.coef_: WeightVector | None = None
+        self.intercept_: np.float64 | None = None
+        self.weights: WeightVector | None = None
 
     def fit(self, X_train: FeatureMatrix, y_train: TargetVector) -> "LinearRegression":
         """Fit the linear regression model using the normal equation.
