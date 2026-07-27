@@ -29,6 +29,7 @@ Issues = "https://github.com/Sou2002/ml_concepts/issues"
 [dependency-groups]
 dev = [
     "ipykernel>=7.3.0",
+    "pytest>=9.1.1",
     "ruff>=0.16.0",
     "scikit-learn>=1.9.0",
     "seaborn>=0.13.2",

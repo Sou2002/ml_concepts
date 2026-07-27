@@ -22,6 +22,13 @@ class SGDRegression:
     ----------
     coef_ : ndarray of shape (n_features,) or None
     intercept_ : float or None
+
+    Notes
+    -----
+    Gradient descent is sensitive to feature scale. Features with large
+    magnitudes or widely differing scales can cause slow convergence or
+    divergence. Standardizing features (zero mean, unit variance) before
+    fitting is recommended.
     """
 
     def __init__(
